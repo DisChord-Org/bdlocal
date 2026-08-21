@@ -1,0 +1,15 @@
+{
+  "name": "bdlocal",
+  "version": "1.0.0",
+  "description": "Una base de datos local en JSON, al estilo megadb, para el ecosistema DisChord.",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "chord compile . --no-run -o src",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.33.2"
+}

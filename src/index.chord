@@ -1,0 +1,126 @@
+importar { obtenerEnRuta, establecerEnRuta } desde "./internal"
+importar { existe, leer, escribir } desde "lib:sf"
+
+var bases es {}
+
+@asincrono
+funcion archivoExiste(ruta) {
+    devolver existe(ruta)
+}
+
+@asincrono
+funcion leerArchivo(ruta) {
+    devolver leer(ruta)
+}
+
+@asincrono
+funcion escribirArchivo(ruta, contenido) {
+    devolver escribir(ruta, contenido)
+}
+
+exportar
+@asincrono
+funcion cargar(ruta) {
+    var existeArchivo es archivoExiste(ruta)
+
+    si (no existeArchivo) {
+        bases[ruta] es {}
+        devolver bases[ruta]
+    }
+
+    var contenido es leerArchivo(ruta)
+    bases[ruta] es JSON.parse(contenido)
+
+    devolver bases[ruta]
+}
+
+exportar
+@asincrono
+funcion guardar(ruta) {
+    devolver escribirArchivo(ruta, JSON.stringify(bases[ruta], indefinido, 2))
+}
+
+exportar
+funcion obtener(ruta, clave) {
+    devolver obtenerEnRuta(bases[ruta], clave.partir("."))
+}
+
+exportar
+funcion tiene(ruta, clave) {
+    devolver obtener(ruta, clave) != indefinido
+}
+
+exportar
+@asincrono
+funcion establecer(ruta, clave, valor) {
+    establecerEnRuta(bases[ruta], clave.partir("."), valor)
+    devolver guardar(ruta)
+}
+
+exportar
+@asincrono
+funcion borrar(ruta, clave) {
+    devolver establecer(ruta, clave, indefinido)
+}
+
+exportar
+@asincrono
+funcion empujar(ruta, clave, valor) {
+    var actual es obtener(ruta, clave)
+
+    si (actual == indefinido) {
+        actual es []
+    }
+
+    actual.agregar(valor)
+
+    devolver establecer(ruta, clave, actual)
+}
+
+exportar
+@asincrono
+funcion quitar(ruta, clave, valor) {
+    var actual es obtener(ruta, clave)
+    var resultado es []
+
+    si (actual != indefinido) {
+        para (elemento en actual) {
+            si (elemento != valor) {
+                resultado.agregar(elemento)
+            }
+        }
+    }
+
+    devolver establecer(ruta, clave, resultado)
+}
+
+exportar
+@asincrono
+funcion sumar(ruta, clave, cantidad) {
+    var actual es obtener(ruta, clave)
+    var base es actual
+
+    si (actual == indefinido) {
+        base es 0
+    }
+
+    devolver establecer(ruta, clave, base + cantidad)
+}
+
+exportar
+@asincrono
+funcion restar(ruta, clave, cantidad) {
+    var actual es obtener(ruta, clave)
+    var base es actual
+
+    si (actual == indefinido) {
+        base es 0
+    }
+
+    devolver establecer(ruta, clave, base - cantidad)
+}
+
+exportar
+funcion todo(ruta) {
+    devolver bases[ruta]
+}

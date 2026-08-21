@@ -1,0 +1,30 @@
+exportar
+funcion obtenerEnRuta(objeto, partes) {
+    si (partes.longitud == 0) {
+        devolver objeto
+    }
+
+    si (objeto == indefinido) {
+        devolver indefinido
+    }
+
+    devolver obtenerEnRuta(objeto[partes[0]], partes.cortar(1))
+}
+
+exportar
+funcion establecerEnRuta(objeto, partes, valor) {
+    var clave es partes[0]
+
+    si (partes.longitud == 1) {
+        objeto[clave] es valor
+        devolver objeto
+    }
+
+    si (objeto[clave] == indefinido) {
+        objeto[clave] es {}
+    }
+
+    establecerEnRuta(objeto[clave], partes.cortar(1), valor)
+
+    devolver objeto
+}
